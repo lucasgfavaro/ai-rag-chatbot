@@ -1,0 +1,181 @@
+# .gitignore global para repositorio con Angular y Java
+
+# Node (Angular)
+node_modules/
+dist/
+build/
+.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Angular
+/.angular/cache
+/.angular/config.json
+/.angular/local
+/.angular/tsconfig.base.json
+
+# IDEs
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+*.iml
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Maven
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Otros
+.DS_Store
+Thumbs.db
+
+# Archivos de sistema
+*.DS_Store
+*.Thumbs.db
+
+# Archivos de configuración
+*.env
+*.local
+
+# Ignorar archivos de salida
+out/
+
+# Ignorar archivos de cobertura
+coverage/
+
+# Ignorar archivos generados por pruebas
+/test-output/
+
+# Ignorar archivos de configuración de SonarQube
+.sonar/
+
+# Ignorar archivos de configuración de JetBrains
+*.idea/
+
+# Ignorar archivos de configuración de Eclipse
+*.settings/
+*.classpath
+*.project
+
+# Ignorar archivos de configuración de NetBeans
+/nbproject/private/
+/build/
+/dist/
+
+# Ignorar archivos de configuración de Visual Studio Code
+.vscode/
+
+# Ignorar archivos de configuración de IntelliJ
+*.iml
+
+# Ignorar archivos de configuración de WebStorm
+*.ws
+
+# Ignorar archivos de configuración de Android Studio
+*.gradle
+
+# Ignorar archivos de configuración de VS
+*.vs
+
+# Ignorar archivos de configuración de Mac
+*.DS_Store
+
+# Ignorar archivos de configuración de Windows
+Thumbs.db
+
+# Ignorar archivos de configuración de Linux
+*~
+
+# Ignorar archivos de configuración de pruebas
+/test/
+
+# Ignorar archivos de configuración de documentación
+/docs/
+
+# Ignorar archivos de configuración de build
+/build/
+
+# Ignorar archivos de configuración de dist
+/dist/
+
+# Ignorar archivos de configuración de node_modules
+/node_modules/
+
+# Ignorar archivos de configuración de coverage
+/coverage/
+
+# Ignorar archivos de configuración de out
+/out/
+
+# Ignorar archivos de configuración de .env
+/.env
+
+# Ignorar archivos de configuración de .local
+/.local
+
+# Ignorar archivos de configuración de .cache
+/.cache
+
+# Ignorar archivos de configuración de .log
+/*.log
+
+# Ignorar archivos de configuración de .tmp
+/*.tmp
+
+# Ignorar archivos de configuración de .bak
+/*.bak
+
+# Ignorar archivos de configuración de .swp
+/*.swp
+
+# Ignorar archivos de configuración de .sonar
+/.sonar/
+
+# Ignorar archivos de configuración de .settings
+/.settings/
+
+# Ignorar archivos de configuración de .classpath
+/.classpath
+
+# Ignorar archivos de configuración de .project
+/.project
+
+# Ignorar archivos de configuración de .ws
+/.ws
+
+# Ignorar archivos de configuración de .gradle
+/.gradle/
+
+# Ignorar archivos de configuración de .vs
+/.vs
+
+# Ignorar archivos de configuración de .idea
+/.idea/
+
+# Ignorar archivos de configuración de .vscode
+/.vscode/
+
+# Ignorar archivos de configuración de .sublime-workspace
+/*.sublime-workspace
+
+# Ignorar archivos de configuración de .sublime-project
+/*.sublime-project
+
+# Ignorar carpeta del multiproyecto de IntelliJ
+.idea/

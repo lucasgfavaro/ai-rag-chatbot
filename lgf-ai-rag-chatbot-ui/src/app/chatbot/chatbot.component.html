@@ -1,0 +1,50 @@
+<div class="chatbot-container">
+  <div class="chat-card">
+    <div class="chat-header">
+      <h2>💬 Chatbot</h2>
+    </div>
+
+    <div class="chat-messages">
+      <div *ngIf="answer && !isLoading" class="message-bubble user-message">
+        <div class="avatar user-avatar">👤</div>
+        <div class="message-content">
+          <strong>Tú:</strong> {{ question }}
+        </div>
+      </div>
+
+      <div *ngIf="answer && !isLoading" class="message-bubble bot-message">
+        <div class="avatar bot-avatar">🤖</div>
+        <div class="message-content">
+          <strong>Bot:</strong> {{ answer }}
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-indicator">
+      <div class="spinner"></div>
+      <span>Pensando...</span>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      <span class="error-icon">⚠️</span>
+      {{ errorMessage }}
+    </div>
+
+    <form (ngSubmit)="sendQuestion()" class="chat-input-form">
+      <div class="input-container">
+        <input
+          type="text"
+          [(ngModel)]="question"
+          name="question"
+          placeholder="Escribe tu pregunta..."
+          required
+          class="chat-input"
+        />
+        <button type="submit" [disabled]="isLoading" class="send-button">
+          <span *ngIf="!isLoading">📤</span>
+          <span *ngIf="isLoading" class="spinner-small"></span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

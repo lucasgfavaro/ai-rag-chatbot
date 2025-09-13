@@ -1,0 +1,19 @@
+.upload-container {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 400px;
+  margin: 20px auto;
+  background: #f9f9f9;
+}
+.upload-container h2 {
+  margin-top: 0;
+}
+.upload-container .message {
+  margin-top: 10px;
+  color: green;
+}
+.upload-container input[type="file"] {
+  margin-top: 10px;
+}
+
