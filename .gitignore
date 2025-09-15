@@ -1,19 +1,21 @@
 # .gitignore global para repositorio con Angular y Java
 
 # Node (Angular)
-node_modules/
-dist/
-build/
-.env
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+lgf-ai-rag-chatbot-ui/node_modules/
+lgf-ai-rag-chatbot-ui/dist/
+lgf-ai-rag-chatbot-ui/build/
+lgf-ai-rag-chatbot-ui/.env
+lgf-ai-rag-chatbot-ui/npm-debug.log*
+lgf-ai-rag-chatbot-ui/yarn-debug.log*
+lgf-ai-rag-chatbot-ui/yarn-error.log*
 
 # Angular
-/.angular/cache
-/.angular/config.json
-/.angular/local
-/.angular/tsconfig.base.json
+lgf-ai-rag-chatbot-ui/.angular/cache
+lgf-ai-rag-chatbot-ui/.angular/config.json
+lgf-ai-rag-chatbot-ui/.angular/local
+lgf-ai-rag-chatbot-ui/.angular/tsconfig.base.json
+lgf-ai-rag-chatbot-ui/.angular/*
+
 
 # IDEs
 .idea/
@@ -179,3 +181,6 @@ Thumbs.db
 
 # Ignorar carpeta del multiproyecto de IntelliJ
 .idea/
+
+!build.gradle
+!settings.gradle

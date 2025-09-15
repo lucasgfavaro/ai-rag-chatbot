@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Global box-sizing para evitar overflow por padding/border */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}

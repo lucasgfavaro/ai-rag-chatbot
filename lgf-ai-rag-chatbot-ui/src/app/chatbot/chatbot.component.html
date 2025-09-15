@@ -1,50 +1,59 @@
 <div class="chatbot-container">
   <div class="chat-card">
-    <div class="chat-header">
-      <h2>💬 Chatbot</h2>
+    <div class="chat-header-custom">
+      <div class="header-content">
+        <span class="header-icon">🤖</span>
+        <span class="header-title">Chatbot</span>
+      </div>
     </div>
 
-    <div class="chat-messages">
-      <div *ngIf="answer && !isLoading" class="message-bubble user-message">
-        <div class="avatar user-avatar">👤</div>
-        <div class="message-content">
-          <strong>Tú:</strong> {{ question }}
+    <div class="chat-content">
+      <div class="chat-messages">
+        <div *ngFor="let message of messages; trackBy: trackByIndex"
+             class="message-bubble"
+             [ngClass]="message.type === 'user' ? 'user-message' : 'bot-message'">
+          <div class="avatar"
+               [ngClass]="message.type === 'user' ? 'user-avatar' : 'bot-avatar'">
+            {{ message.type === 'user' ? 'U' : 'AI' }}
+          </div>
+          <div class="message-content">
+            <strong>{{ message.type === 'user' ? 'Tú' : 'Bot' }}:</strong>
+            <span [innerHTML]="message.content | preserveLineBreaks"></span>
+          </div>
         </div>
       </div>
 
-      <div *ngIf="answer && !isLoading" class="message-bubble bot-message">
-        <div class="avatar bot-avatar">🤖</div>
-        <div class="message-content">
-          <strong>Bot:</strong> {{ answer }}
+      <div *ngIf="isLoading" class="loading-indicator">
+        <div class="spinner"></div>
+        <span>Pensando...</span>
+      </div>
+
+      <div *ngIf="errorMessage" class="error-message">
+        ⚠️ {{ errorMessage }}
+      </div>
+    </div>
+
+    <div class="chat-actions">
+      <form (ngSubmit)="sendQuestion()" class="chat-input-form">
+        <div class="input-container">
+          <textarea
+            [(ngModel)]="question"
+            name="question"
+            placeholder="Escribe tu pregunta aquí..."
+            rows="2"
+            class="question-input"
+            [disabled]="isLoading"
+          ></textarea>
+          <button
+            type="submit"
+            [disabled]="isLoading || !question.trim()"
+            class="send-button"
+          >
+            <span *ngIf="!isLoading">Send</span>
+            <span *ngIf="isLoading">...</span>
+          </button>
         </div>
-      </div>
+      </form>
     </div>
-
-    <div *ngIf="isLoading" class="loading-indicator">
-      <div class="spinner"></div>
-      <span>Pensando...</span>
-    </div>
-
-    <div *ngIf="errorMessage" class="error-message">
-      <span class="error-icon">⚠️</span>
-      {{ errorMessage }}
-    </div>
-
-    <form (ngSubmit)="sendQuestion()" class="chat-input-form">
-      <div class="input-container">
-        <input
-          type="text"
-          [(ngModel)]="question"
-          name="question"
-          placeholder="Escribe tu pregunta..."
-          required
-          class="chat-input"
-        />
-        <button type="submit" [disabled]="isLoading" class="send-button">
-          <span *ngIf="!isLoading">📤</span>
-          <span *ngIf="isLoading" class="spinner-small"></span>
-        </button>
-      </div>
-    </form>
   </div>
 </div>

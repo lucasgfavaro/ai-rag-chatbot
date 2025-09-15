@@ -1,11 +1,20 @@
+# AI RAG Chatbot API
 
-Lo que deberia hacer para mantener contexto es primero hacer el similarity search y luego ir a buscar los chunks anteriores y posteriores a la coincidencia para mantener el contexto del chat. 
-Al haer el chunk del chat deberia mantenerme dentro del limite de los 6000 tokens e ir chunckeado por eso. 
+## Context Management
 
-Al ir a buscar al similitudes dberia establecer un limite y tengo que investigar cuando largo puede ser el prompt
+To maintain context, first perform a similarity search, then retrieve the previous and next chunks around the match to preserve chat context.
 
+When chunking chat content, stay within the 6000 token limit and chunk accordingly.
 
-Perfecto, restablecí el context-path. Ahora que Swagger funciona correctamente, después de reiniciar tu aplicación podrás acceder a la documentación de tu API en:
-http://localhost:8080/rag-chatbot/swagger-ui/index.html
-Y el endpoint de OpenAPI JSON estará en:
-http://localhost:8080/rag-chatbot/v3/api-docs
+When searching for similarities, set a limit and investigate how long the prompt can be.
+
+## Swagger & OpenAPI
+
+After restoring the context-path, Swagger works correctly. Once you restart your application, you can access your API documentation at:
+
+- Swagger UI: [http://localhost:8080/rag-chatbot/swagger-ui/index.html](http://localhost:8080/rag-chatbot/swagger-ui/index.html)
+- OpenAPI JSON: [http://localhost:8080/rag-chatbot/v3/api-docs](http://localhost:8080/rag-chatbot/v3/api-docs)
+
+---
+
+Feel free to update this README with more details about endpoints, usage, and architecture as your project evolves.

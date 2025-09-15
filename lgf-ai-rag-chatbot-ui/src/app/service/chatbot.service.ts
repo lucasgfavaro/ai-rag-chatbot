@@ -23,6 +23,6 @@ export class ChatbotService {
 
   askQuestion(question: string): Observable<QuestionAnswer> {
     const params = new HttpParams().set('question', question);
-    return this.http.post<QuestionAnswer>(`${this.apiUrl}/chatbot/question`, null, { params });
+    return this.http.post<QuestionAnswer>(`${this.apiUrl}/chatbot`, null, { params });
   }
 }
