@@ -10,7 +10,7 @@ lgf-ai-rag-chatbot-ui/yarn-debug.log*
 lgf-ai-rag-chatbot-ui/yarn-error.log*
 
 # Angular
-lgf-ai-rag-chatbot-ui/.angular/cache
+lgf-ai-rag-chatbot-ui/.angular/cache*
 lgf-ai-rag-chatbot-ui/.angular/config.json
 lgf-ai-rag-chatbot-ui/.angular/local
 lgf-ai-rag-chatbot-ui/.angular/tsconfig.base.json

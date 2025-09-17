@@ -18,3 +18,5 @@ After restoring the context-path, Swagger works correctly. Once you restart your
 ---
 
 Feel free to update this README with more details about endpoints, usage, and architecture as your project evolves.
+
+https://medium.com/@pragyashukla2580/rag-retrieval-augmented-generation-for-your-own-documents-5e024267140e
