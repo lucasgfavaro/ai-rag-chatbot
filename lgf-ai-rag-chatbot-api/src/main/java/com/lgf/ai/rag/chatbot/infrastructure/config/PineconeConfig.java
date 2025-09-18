@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class PineconeConfig {
 
-
     @Bean
     public OpenAiEmbeddingModel embeddingModel(@Value("${spring.ai.openai.api-key}") String apikey) {
         // Can be any other EmbeddingModel implementation.

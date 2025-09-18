@@ -31,19 +31,9 @@ public class OpenAiServiceImpl implements IEmbeddingService {
         }
 
         try {
-            long startTime = System.currentTimeMillis();
             int tokenCount = encoding.countTokens(content);
-
-            log.debug("Generating embedding for content (length: {} characters, tokens: {})", content.length(), tokenCount);
-
-            float[] embedding = embeddingModel.embed(content);
-
-            long processingTime = System.currentTimeMillis() - startTime;
-            log.debug("Embedding generated successfully (dimensions: {}, processing time: {} ms)",
-                    embedding.length, processingTime);
-
-            return embedding;
-
+            log.info("Generating embedding for content (length: {} characters, tokens: {})", content.length(), tokenCount);
+            return embeddingModel.embed(content);
         } catch (Exception e) {
             log.error("Failed to generate embedding for content (length: {}): {}",
                     content.length(), e.getMessage(), e);
