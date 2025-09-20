@@ -56,4 +56,8 @@ export class DocumentService {
     formData.append('file', file);
     return this.http.post<Document>(`${this.baseUrl}/data-ingest/document`, formData);
   }
+
+  getDocumentChunks(id: string): Observable<DocumentChunk[]> {
+    return this.http.get<DocumentChunk[]>(`${this.baseUrl}/documents/${id}/chunks`);
+  }
 }

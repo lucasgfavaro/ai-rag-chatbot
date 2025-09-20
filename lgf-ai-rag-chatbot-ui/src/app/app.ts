@@ -73,7 +73,12 @@ export class App implements OnInit {
 
   selectDocument(document: Document) {
     this.selectedDocument = document;
-    this.selectedDocumentChunks = document.chunks || [];
+    this.selectedDocumentChunks = [];
+    this.documentService.getDocumentChunks(document.id).subscribe({
+      next: (chunks: DocumentChunk[]) => {
+        this.selectedDocumentChunks = chunks;
+      }
+    });
   }
 
   deleteDocument(document: Document) {
@@ -156,6 +161,11 @@ export class App implements OnInit {
   cancelDelete() {
     this.documentToDelete = null;
     this.showDeleteModal = false;
+  }
+
+  getSelectedFileContent(): string {
+    if (!this.selectedDocumentChunks || this.selectedDocumentChunks.length === 0) return '';
+    return this.selectedDocumentChunks.map(chunk => chunk.text).join('');
   }
 
   // Backwards compatibility for template
