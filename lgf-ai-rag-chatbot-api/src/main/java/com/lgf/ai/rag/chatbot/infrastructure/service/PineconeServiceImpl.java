@@ -59,9 +59,8 @@ public class PineconeServiceImpl implements IVectorDatabaseService {
             List<String> upsertIds = List.of(vectorId);
             List<List<Float>> values = List.of(embeddingList);
 
-            Struct.Builder metadataStructBuilder = Struct.newBuilder();
-            metadataStructBuilder.putFields("id", com.google.protobuf.Value.newBuilder().setStringValue(documentChunk.id()).build());
-            List<Struct> metadataStructList = List.of(metadataStructBuilder.build());
+            Struct metadataStruct = buildMetadataStruct(documentChunk);
+            List<Struct> metadataStructList = List.of(metadataStruct);
 
             List<VectorWithUnsignedIndices> vectors = new ArrayList<>(1);
             for (int i = 0; i < metadataStructList.size(); i++) {
@@ -139,5 +138,32 @@ public class PineconeServiceImpl implements IVectorDatabaseService {
             log.error("Error deleting vectors from Pinecone: {}", e.getMessage(), e);
             throw new RuntimeException("Vector deletion failed for chunk IDs: " + chunkIds, e);
         }
+    }
+
+    private Struct buildMetadataStruct(DocumentChunk documentChunk) {
+        Struct.Builder metadataStructBuilder = Struct.newBuilder();
+        metadataStructBuilder.putFields("id", com.google.protobuf.Value.newBuilder().setStringValue(documentChunk.id()).build());
+        if (documentChunk.metadata() != null) {
+            documentChunk.metadata().forEach((key, value) -> {
+                if (value != null) {
+                    if (value instanceof String) {
+                        metadataStructBuilder.putFields(key, com.google.protobuf.Value.newBuilder().setStringValue((String) value).build());
+                    } else if (value instanceof Number) {
+                        metadataStructBuilder.putFields(key, com.google.protobuf.Value.newBuilder().setNumberValue(((Number) value).doubleValue()).build());
+                    } else if (value instanceof List<?> list) {
+                        com.google.protobuf.ListValue.Builder listBuilder = com.google.protobuf.ListValue.newBuilder();
+                        for (Object item : list) {
+                            if (item != null) {
+                                listBuilder.addValues(com.google.protobuf.Value.newBuilder().setStringValue(item.toString()).build());
+                            }
+                        }
+                        metadataStructBuilder.putFields(key, com.google.protobuf.Value.newBuilder().setListValue(listBuilder.build()).build());
+                    } else {
+                        metadataStructBuilder.putFields(key, com.google.protobuf.Value.newBuilder().setStringValue(value.toString()).build());
+                    }
+                }
+            });
+        }
+        return metadataStructBuilder.build();
     }
 }

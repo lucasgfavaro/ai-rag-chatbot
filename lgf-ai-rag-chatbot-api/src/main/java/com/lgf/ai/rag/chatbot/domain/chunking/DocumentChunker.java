@@ -20,7 +20,7 @@ public class DocumentChunker {
         log.info("DocumentChunker initialized successfully");
     }
 
-    public List<DocumentChunk>  chunk(String text, Document document) {
+    public List<DocumentChunk>  chunk(Document document, String text) {
         String documentName = document.getName();
         String documentId = document.getId();
         log.info("Starting document chunking process for: {} (content length: {} characters)", documentName, text.length());

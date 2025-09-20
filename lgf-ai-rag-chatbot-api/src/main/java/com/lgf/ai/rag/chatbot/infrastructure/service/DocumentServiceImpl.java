@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class DocumentServiceImpl implements IDocumentService {
@@ -42,5 +44,14 @@ public class DocumentServiceImpl implements IDocumentService {
         vectorDatabaseService.deleteVectorsByChunkIds(document.get().getChunks().stream().map(DocumentChunk::id).toList());
         documentCollection.deleteDocumentById(documentId);
         return true;
+    }
+
+    @Override
+    public List<DocumentChunk> getChunksByDocumentId(String id) {
+        Document document = documentCollection.get(id).orElse(null);
+        if (document == null) {
+            return List.of();
+        }
+        return document.getChunks();
     }
 }

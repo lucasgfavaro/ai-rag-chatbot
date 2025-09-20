@@ -1,7 +1,10 @@
 package com.lgf.ai.rag.chatbot.application.service;
 
 import com.lgf.ai.rag.chatbot.domain.entity.Document;
+import com.lgf.ai.rag.chatbot.domain.entity.DocumentChunk;
 import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 public interface IDocumentService {
 
@@ -13,5 +16,5 @@ public interface IDocumentService {
 
     boolean deleteDocumentBy(String documentId);
 
-
+    List<DocumentChunk> getChunksByDocumentId(String id);
 }

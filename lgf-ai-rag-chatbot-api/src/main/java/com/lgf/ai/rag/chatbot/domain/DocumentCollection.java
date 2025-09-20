@@ -25,7 +25,7 @@ public class DocumentCollection implements DocumentCollectionRepository {
     public Optional<Document> get(String id) {
         return documentRepository.findById(id)
                 .map(document -> {
-                    List<DocumentChunk> chunks = documentChunkRepository.findByDocumentId(id);
+                    List<DocumentChunk> chunks = documentChunkRepository.findByDocumentIdOrderByOrderAsc(id);
                     document.addChunks(chunks);
                     return document;
                 })
@@ -44,7 +44,7 @@ public class DocumentCollection implements DocumentCollectionRepository {
         for (DocumentChunk chunk : document.getChunks()) {
             DocumentChunk chunkWithDocId = new DocumentChunk(
                     chunk.id(), chunk.documentName(), chunk.text(),
-                    chunk.lineNumber(), chunk.metadata(), documentId
+                    chunk.order(), null, documentId
             );
             documentChunkRepository.save(chunkWithDocId);
         }
@@ -74,7 +74,7 @@ public class DocumentCollection implements DocumentCollectionRepository {
                 documentRepository.findById(chunk.documentId()).ifPresent(doc -> {
                     Document document =
                             documentMap.computeIfAbsent(doc.getId(), k ->
-                                    new Document(doc.getId(), doc.getName(), doc.getSize(), doc.getIngestedAt(), doc.getContent()));
+                                    new Document(doc.getId(), doc.getName(), doc.getSize(), doc.getIngestedAt()));
                     document.getChunks().add(chunk);
                 });
             });

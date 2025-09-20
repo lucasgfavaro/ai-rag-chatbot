@@ -13,7 +13,7 @@ public class MarkdownChunker implements ChunkerStrategy {
 
     @Override
     public boolean isChunkingEnabled(String text) {
-        return text.contains("# ") || text.contains("## ") || text.contains("### ");
+        return false;// text.contains("# ") || text.contains("## ") || text.contains("### ");
     }
 
     @Override

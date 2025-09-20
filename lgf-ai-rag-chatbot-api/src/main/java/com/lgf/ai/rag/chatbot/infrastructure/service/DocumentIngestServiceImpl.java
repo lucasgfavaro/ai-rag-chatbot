@@ -27,7 +27,6 @@ public class DocumentIngestServiceImpl implements IDocumentIngestService {
         this.vectorDatabaseService = vectorDatabaseService;
         this.documentChunker = documentChunker;
         this.documentService = documentService;
-        log.info("DataIngestServiceImpl initialized successfully");
     }
 
     @Override
@@ -37,37 +36,39 @@ public class DocumentIngestServiceImpl implements IDocumentIngestService {
         String contentType = file.getContentType();
         log.info("Starting document ingestion process for file: {} (size: {} bytes)", name, fileSize);
 
+        validateFile(file);
+        String content = extractContent(file);
+        Document document = createDocument(name, contentType, fileSize);
+        addChunks(document, content);
+        storeChunks(document);
+        persistDocument(document);
+        log.info("Document {} ingestion completed successfully: {} chunks processed", name, document.getChunks().size());
+        return document;
+    }
+
+    private void validateFile(MultipartFile file) {
         if (file.isEmpty()) {
-            log.warn("Attempted to ingest empty file: {}", name);
             throw new IllegalArgumentException("File cannot be empty");
         }
+    }
 
-        try {
-            long startTime = System.currentTimeMillis();
-            String content = new String(file.getBytes(), StandardCharsets.UTF_8);
-            log.debug("File content extracted successfully for: {} (content length: {} characters)", name, content.length());
+    private String extractContent(MultipartFile file) throws IOException {
+        return new String(file.getBytes(), StandardCharsets.UTF_8);
+    }
 
-            Document document = new Document(name, contentType, fileSize, LocalDateTime.now(), content);
+    private Document createDocument(String name, String contentType, long fileSize) {
+        return new Document(name, contentType, fileSize, LocalDateTime.now());
+    }
 
-            document.addChunks(documentChunker.chunk(content, document));
-            log.info("Document {} chunked into {} pieces", name, document.getChunks().size());
+    private void addChunks(Document document, String content) {
+        document.addChunks(documentChunker.chunk(document, content));
+    }
 
-            document.getChunks().forEach(vectorDatabaseService::store);
-            log.info("All chunks for document {} stored in vector database", name);
+    private void storeChunks(Document document) {
+        document.getChunks().forEach(vectorDatabaseService::store);
+    }
 
-            documentService.createDocument(document);
-
-            long processingTime = System.currentTimeMillis() - startTime;
-            log.info("Document {} ingestion completed successfully: {} chunks processed in {} ms",
-                    name, document.getChunks().size(), processingTime);
-
-            return document;
-        } catch (IOException e) {
-            log.error("IO error while processing document {}: {}", name, e.getMessage(), e);
-            throw e;
-        } catch (Exception e) {
-            log.error("Unexpected error during document ingestion for {}: {}", name, e.getMessage(), e);
-            throw new RuntimeException("Document ingestion failed", e);
-        }
+    private void persistDocument(Document document) {
+        documentService.createDocument(document);
     }
 }

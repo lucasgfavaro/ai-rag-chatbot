@@ -2,11 +2,14 @@ package com.lgf.ai.rag.chatbot.application.controller;
 
 import com.lgf.ai.rag.chatbot.application.service.IDocumentService;
 import com.lgf.ai.rag.chatbot.domain.entity.Document;
+import com.lgf.ai.rag.chatbot.domain.entity.DocumentChunk;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/documents")
@@ -38,5 +41,15 @@ public class DocumentController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/{id}/chunks")
+    @Operation(summary = "Get all chunks for a document by document id")
+    public ResponseEntity<List<DocumentChunk>> getDocumentChunks(@PathVariable String id) {
+        List<DocumentChunk> chunks = documentService.getChunksByDocumentId(id);
+        if (chunks == null || chunks.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(chunks);
     }
 }

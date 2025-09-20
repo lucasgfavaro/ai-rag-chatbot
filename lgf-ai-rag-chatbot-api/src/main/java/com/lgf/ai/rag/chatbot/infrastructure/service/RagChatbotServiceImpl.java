@@ -118,7 +118,7 @@ public class RagChatbotServiceImpl implements IRagChatbotService {
                 for (DocumentChunk chunk : doc.getChunks()) {
                     referencesBuilder.append("[").append(refNum).append("] ");
                     referencesBuilder.append(chunk.documentName());
-                    referencesBuilder.append(" - Línea ").append(chunk.lineNumber());
+                    referencesBuilder.append(" - Línea ").append(chunk.order());
                     if (chunk.metadata() != null && !chunk.metadata().isEmpty()) {
                         String title = extractTitleFromMetadata(chunk.metadata());
                         if (title != null && !title.trim().isEmpty()) {

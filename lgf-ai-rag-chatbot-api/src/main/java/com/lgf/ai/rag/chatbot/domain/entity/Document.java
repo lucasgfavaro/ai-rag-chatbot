@@ -19,19 +19,17 @@ public class Document {
     private long size;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime ingestedAt;
-    private String content;
     @Transient
     private List<DocumentChunk> chunks;
 
     public Document() {
     }
 
-    public Document(String name, String contentType, long size, LocalDateTime ingestedAt, String content) {
+    public Document(String name, String contentType, long size, LocalDateTime ingestedAt) {
         this.name = name;
         this.contentType = contentType;
         this.size = size;
         this.ingestedAt = ingestedAt;
-        this.content = content;
     }
 
     public void addChunks(List<DocumentChunk> chunks) {
