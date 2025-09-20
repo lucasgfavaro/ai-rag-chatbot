@@ -16,7 +16,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 
-import { DocumentUploadComponent } from './document-upload/document-upload.component';
 import { ChatbotComponent } from './chatbot/chatbot.component';
 
 @NgModule({
@@ -37,7 +36,6 @@ import { ChatbotComponent } from './chatbot/chatbot.component';
     MatPaginatorModule,
     MatCardModule,
     // Components
-    DocumentUploadComponent,
     ChatbotComponent
   ],
   providers: [DatePipe, JsonPipe],

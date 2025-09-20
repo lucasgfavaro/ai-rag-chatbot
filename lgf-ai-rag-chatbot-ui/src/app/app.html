@@ -48,8 +48,8 @@
     <div class="document-content-view">
       <h3>Document Content</h3>
       <div class="document-content-scroll">
-        <pre *ngIf="selectedFile">{{ getSelectedFileContent() }}</pre>
-        <div *ngIf="!selectedFile" class="document-placeholder">Select a document to view its content.</div>
+        <pre *ngIf="selectedDocument">{{ selectedDocument.content }}</pre>
+        <div *ngIf="!selectedDocument" class="document-placeholder">Select a document to view its content.</div>
       </div>
     </div>
   </div>

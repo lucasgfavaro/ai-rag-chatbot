@@ -74,7 +74,7 @@ public class DocumentCollection implements DocumentCollectionRepository {
                 documentRepository.findById(chunk.documentId()).ifPresent(doc -> {
                     Document document =
                             documentMap.computeIfAbsent(doc.getId(), k ->
-                                    new Document(doc.getId(), doc.getName(), doc.getSize(), doc.getIngestedAt()));
+                                    new Document(doc.getId(), doc.getName(), doc.getSize(), doc.getIngestedAt(),doc.getContent()));
                     document.getChunks().add(chunk);
                 });
             });

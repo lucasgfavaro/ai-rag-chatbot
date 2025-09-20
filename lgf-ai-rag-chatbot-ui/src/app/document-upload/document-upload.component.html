@@ -1,9 +1,0 @@
-<div class="upload-container">
-  <h2>Subir Documento</h2>
-  <input type="file" (change)="onFileSelected($event)" />
-  <div *ngIf="isLoading">Subiendo documento...</div>
-  <div *ngIf="uploadMessage && !isLoading" class="message">
-    {{ uploadMessage }}
-  </div>
-</div>
-

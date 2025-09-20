@@ -1,6 +1,7 @@
 package com.lgf.ai.rag.chatbot.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
@@ -19,17 +20,20 @@ public class Document {
     private long size;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime ingestedAt;
+    @Schema(description = "Contenido completo del documento original")
+    private String content;
     @Transient
     private List<DocumentChunk> chunks;
 
     public Document() {
     }
 
-    public Document(String name, String contentType, long size, LocalDateTime ingestedAt) {
+    public Document(String name, String contentType, long size, LocalDateTime ingestedAt, String content) {
         this.name = name;
         this.contentType = contentType;
         this.size = size;
         this.ingestedAt = ingestedAt;
+        this.content = content;
     }
 
     public void addChunks(List<DocumentChunk> chunks) {
@@ -43,4 +47,3 @@ public class Document {
         return chunks;
     }
 }
-

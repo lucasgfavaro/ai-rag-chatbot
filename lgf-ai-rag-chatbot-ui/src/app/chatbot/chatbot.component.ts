@@ -5,6 +5,7 @@ import { ChatbotService } from '../service/chatbot.service';
 import { PreserveLineBreaksPipe } from '../pipes/preserve-line-breaks.pipe';
 
 interface ChatMessage {
+  id: string;
   content: string;
   type: 'user' | 'bot';
   timestamp: Date;
@@ -25,11 +26,16 @@ export class ChatbotComponent {
 
   constructor(private chatbotService: ChatbotService) {}
 
+  trackByMessageId(index: number, message: ChatMessage): string {
+    return message.id;
+  }
+
   sendQuestion() {
     if (!this.question.trim()) return;
 
     // Agregar mensaje del usuario
     this.messages.push({
+      id: this.generateId(),
       content: this.question,
       type: 'user',
       timestamp: new Date()
@@ -44,6 +50,7 @@ export class ChatbotComponent {
     this.chatbotService.askQuestion(currentQuestion).subscribe({
       next: (response) => {
         this.messages.push({
+          id: this.generateId(),
           content: response.answer,
           type: 'bot',
           timestamp: new Date()
@@ -58,7 +65,7 @@ export class ChatbotComponent {
     });
   }
 
-  trackByIndex(index: number): number {
-    return index;
+  generateId(): string {
+    return Math.random().toString(36).substring(2) + Date.now().toString(36);
   }
 }

@@ -38,7 +38,7 @@ public class DocumentIngestServiceImpl implements IDocumentIngestService {
 
         validateFile(file);
         String content = extractContent(file);
-        Document document = createDocument(name, contentType, fileSize);
+        Document document = createDocument(name, contentType, fileSize, content);
         addChunks(document, content);
         storeChunks(document);
         persistDocument(document);
@@ -56,8 +56,8 @@ public class DocumentIngestServiceImpl implements IDocumentIngestService {
         return new String(file.getBytes(), StandardCharsets.UTF_8);
     }
 
-    private Document createDocument(String name, String contentType, long fileSize) {
-        return new Document(name, contentType, fileSize, LocalDateTime.now());
+    private Document createDocument(String name, String contentType, long fileSize, String content) {
+        return new Document(name, contentType, fileSize, LocalDateTime.now(), content);
     }
 
     private void addChunks(Document document, String content) {

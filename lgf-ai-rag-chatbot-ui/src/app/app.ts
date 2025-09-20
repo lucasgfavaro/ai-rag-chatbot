@@ -73,12 +73,12 @@ export class App implements OnInit {
 
   selectDocument(document: Document) {
     this.selectedDocument = document;
+    // Ya no se cargan los chunks, solo se muestra el content
     this.selectedDocumentChunks = [];
-    this.documentService.getDocumentChunks(document.id).subscribe({
-      next: (chunks: DocumentChunk[]) => {
-        this.selectedDocumentChunks = chunks;
-      }
-    });
+  }
+
+  getSelectedDocumentContent(): string {
+    return this.selectedDocument?.content || '';
   }
 
   deleteDocument(document: Document) {

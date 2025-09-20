@@ -168,3 +168,7 @@ ai-rag-chatbot/
 - **DocumentUploadComponent**: Document upload
 - **Material Design**: Buttons, input fields, spinners
 
+
+Cosas para contar:
+Mostrar como hacer el embedding directo de un prompt usando la API de openAI via Postman y luego filtrar en pinecone
+

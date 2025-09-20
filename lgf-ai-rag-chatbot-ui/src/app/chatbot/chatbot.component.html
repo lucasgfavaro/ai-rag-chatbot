@@ -9,11 +9,8 @@
 
     <div class="chat-content">
       <div class="chat-messages">
-        <div *ngFor="let message of messages; trackBy: trackByIndex"
-             class="message-bubble"
-             [ngClass]="message.type === 'user' ? 'user-message' : 'bot-message'">
-          <div class="avatar"
-               [ngClass]="message.type === 'user' ? 'user-avatar' : 'bot-avatar'">
+        <div *ngFor="let message of messages; trackBy: trackByMessageId" class="message-bubble" [ngClass]="message.type === 'user' ? 'user-message' : 'bot-message'">
+          <div class="avatar" [ngClass]="message.type === 'user' ? 'user-avatar' : 'bot-avatar'">
             {{ message.type === 'user' ? 'U' : 'AI' }}
           </div>
           <div class="message-content">
@@ -23,14 +20,18 @@
         </div>
       </div>
 
-      <div *ngIf="isLoading" class="loading-indicator">
-        <div class="spinner"></div>
-        <span>Pensando...</span>
-      </div>
+      @if (isLoading) {
+        <div class="loading-indicator">
+          <div class="spinner"></div>
+          <span>🤔 </span>
+        </div>
+      }
 
-      <div *ngIf="errorMessage" class="error-message">
-        ⚠️ {{ errorMessage }}
-      </div>
+      @if (errorMessage) {
+        <div class="error-message">
+          ⚠️ {{ errorMessage }}
+        </div>
+      }
     </div>
 
     <div class="chat-actions">
