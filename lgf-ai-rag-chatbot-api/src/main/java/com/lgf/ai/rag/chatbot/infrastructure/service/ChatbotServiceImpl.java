@@ -38,13 +38,13 @@ public class ChatbotServiceImpl implements IRagChatbotService {
 	public String ask(String question) {
 		log.info("Processing question: {}", question);
 
-		String systemMessage = "You are an AI assistant that helps users by answering questions based on provided documents. "
-				+ "If the answer is not contained within the documents, respond with 'I don't know'. "
-				+ "Keep answers concise and to the point.";
+		String systemMessage = "Eres un asistente de IA que ayuda a los usuarios respondiendo preguntas basadas en los documentos proporcionados. "
+				+ "Si la respuesta no está contenida en los documentos, responde con 'No lo sé'. "
+				+ "Mantén las respuestas concisas y directas.";
 
 		if (question == null || question.trim().isEmpty()) {
 			log.warn("Empty or null question received");
-			return "Please provide a valid question.";
+			return "Por favor ingresa una pregunta válida.";
 		}
 
 		try {
@@ -56,34 +56,23 @@ public class ChatbotServiceImpl implements IRagChatbotService {
 			String context = buildContext(relevantDocuments);
 			String references = buildReferences(relevantDocuments);
 
-
-			//QuestionAnswerAdvisor
+			// TODO: QuestionAnswerAdvisor
 
 			String prompt = buildPrompt(systemMessage, context, references, question, null); // null para historial por ahora
 
-			log.debug("Generated prompt for AI model (length: {} characters)", prompt.length());
-
 			String response = chatClient.prompt(prompt).call().content();
 			assert response != null;
-			log.debug("AI model response received (length: {} characters)", response.length());
-
 			String finalResponse = appendFooter(response, references);
 
-			long processingTime = System.currentTimeMillis() - startTime;
-			log.info("Question processed successfully in {} ms", processingTime);
-
+			log.info("Question processed successfully ");
 			return finalResponse;
 
 		} catch (Exception e) {
 			log.error("Error processing question '{}': {}", question, e.getMessage(), e);
-			return "I apologize, but I encountered an error while processing your question. Please try again.";
+			return "Lamento las molestias, pero se produjo un error al procesar tu pregunta. Por favor, inténtalo de nuevo.";
 		}
 	}
 
-	/**
-	 * Construye el prompt para el modelo AI, ordenando system message, contexto, referencias y pregunta del usuario.
-	 * Si se provee historial, lo incluye antes de la pregunta.
-	 */
 	private String buildPrompt(String systemMessage, String context, String references, String userQuestion, List<String> chatHistory) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("System: ").append(systemMessage).append("\n\n");
@@ -105,12 +94,8 @@ public class ChatbotServiceImpl implements IRagChatbotService {
 	}
 
 	private java.util.List<Document> getRelevantDocument(String question) {
-		log.debug("Searching for relevant document chunks for question: {}", question);
-
 		try {
 			var similarVectors = vectorDatabaseService.getSimilarText(question);
-			log.debug("Vector database returned {} similar vectors", similarVectors.size());
-			// Filtrar por score de similitud usando la propiedad
 			var filteredIds = similarVectors.stream()
 					.filter(vec -> vec.getScore() >= similarityThreshold)
 					.map(ScoredVectorWithUnsignedIndices::getId)
@@ -140,12 +125,10 @@ public class ChatbotServiceImpl implements IRagChatbotService {
 			}
 		}
 
-		String context = contextBuilder.toString();
-		return context;
+        return contextBuilder.toString();
 	}
 
 	private String buildReferences(java.util.List<Document> documents) {
-		log.debug("Building references from {} documents", documents.size());
 
 		StringBuilder referencesBuilder = new StringBuilder();
 		int refNum = 1;
@@ -170,10 +153,8 @@ public class ChatbotServiceImpl implements IRagChatbotService {
 	}
 
 	private String extractTitleFromMetadata(Map<String, Object> metadata) {
-		// Primero buscar la clave 'titles' que contiene la jerarquía completa
 		Object titlesObj = metadata.get("titles");
 		if (titlesObj instanceof List<?> titlesList && !titlesList.isEmpty()) {
-			// Construir el título jerárquico desde la lista de títulos
 			StringBuilder titleBuilder = new StringBuilder();
 			for (Object titleObj : titlesList) {
 				if (titleObj != null && !titleObj.toString().trim().isEmpty()) {
@@ -191,7 +172,6 @@ public class ChatbotServiceImpl implements IRagChatbotService {
 			}
 		}
 
-		// Fallback: buscar diferentes posibles claves para títulos individuales
 		String[] titleKeys = {"title", "titulo", "heading", "section", "header", "chapter", "capitulo"};
 
 		for (String key : titleKeys) {

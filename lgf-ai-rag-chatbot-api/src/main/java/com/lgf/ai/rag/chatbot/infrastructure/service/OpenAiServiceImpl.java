@@ -20,7 +20,6 @@ public class OpenAiServiceImpl implements IEmbeddingService {
     public OpenAiServiceImpl(OpenAiEmbeddingModel embeddingModel) {
         this.embeddingModel = embeddingModel;
         registry.getEncodingForModel(ModelType.TEXT_EMBEDDING_ADA_002);
-        log.info("EmbeddingServiceImpl initialized with OpenAI embedding model (TEXT_EMBEDDING_ADA_002)");
     }
 
     @Override

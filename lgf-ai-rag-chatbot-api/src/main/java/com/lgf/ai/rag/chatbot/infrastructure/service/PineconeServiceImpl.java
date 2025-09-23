@@ -31,7 +31,6 @@ public class PineconeServiceImpl implements IVectorDatabaseService {
         this.embeddingService = embeddingService;
         this.pinecone = new Pinecone.Builder(apiKey).build();
         this.indexName = indexName;
-        log.info("VectorDatabaseServiceImpl initialized with index: {}", indexName);
     }
 
     @Override
@@ -40,16 +39,9 @@ public class PineconeServiceImpl implements IVectorDatabaseService {
         log.info("Starting vector storage process for document chunk: {}", vectorId);
 
         try {
-            long startTime = System.currentTimeMillis();
-
             Index index = pinecone.getIndexConnection(indexName);
-            log.debug("Connected to Pinecone index: {}", indexName);
-
             String content = documentChunk.text();
-            log.debug("Generating embedding for chunk {} (content length: {} characters)", vectorId, content.length());
-
             float[] embedding = embeddingService.embed(content);
-            log.debug("Embedding generated successfully for chunk {} (dimensions: {})", vectorId, embedding.length);
 
             List<Float> embeddingList = new ArrayList<>(embedding.length);
             for (float value : embedding) {
@@ -69,10 +61,7 @@ public class PineconeServiceImpl implements IVectorDatabaseService {
 
             UpsertResponse upsertResponse = index.upsert(vectors, "Default");
 
-            long processingTime = System.currentTimeMillis() - startTime;
-            log.info("DocumentChunk with ID {} successfully stored in Pinecone in {} ms", vectorId, processingTime);
-            log.debug("Pinecone upsert response: {}", upsertResponse);
-
+            log.info("DocumentChunk with ID {} successfully stored in Pinecone", vectorId);
         } catch (Exception e) {
             log.error("Failed to store DocumentChunk {} in Pinecone: {}", vectorId, e.getMessage(), e);
             throw new RuntimeException("Vector storage failed for chunk: " + vectorId, e);
@@ -89,13 +78,8 @@ public class PineconeServiceImpl implements IVectorDatabaseService {
         }
 
         try {
-            long startTime = System.currentTimeMillis();
-
             Index index = pinecone.getIndexConnection(indexName);
-            log.debug("Connected to Pinecone index: {} for similarity search", indexName);
-
             float[] embedding = embeddingService.embed(query);
-            log.debug("Query embedding generated (dimensions: {})", embedding.length);
 
             List<Float> embeddingList = new ArrayList<>(embedding.length);
             for (float value : embedding) {
@@ -103,16 +87,8 @@ public class PineconeServiceImpl implements IVectorDatabaseService {
             }
 
             List<ScoredVectorWithUnsignedIndices> result = index.queryByVector(4, embeddingList, "Default", true, true).getMatchesList();
-
-            long searchTime = System.currentTimeMillis() - startTime;
-            log.info("Pinecone similarity search completed: found {} results for query '{}' in {} ms",
-                    result.size(), query, searchTime);
-
-            if (log.isDebugEnabled()) {
-                result.forEach(vector ->
-                        log.debug("Found similar vector - ID: {}, Score: {}", vector.getId(), vector.getScore())
-                );
-            }
+            log.info("Pinecone similarity search completed: found {} results for query '{}'",
+                    result.size(), query);
 
             return result;
 
@@ -131,8 +107,7 @@ public class PineconeServiceImpl implements IVectorDatabaseService {
         }
         try {
             Index index = pinecone.getIndexConnection(indexName);
-            log.debug("Connected to Pinecone index: {} for deletion", indexName);
-            index.deleteByIds(chunkIds,"Default");
+            index.deleteByIds(chunkIds, "Default");
             log.info("Successfully deleted {} vectors from Pinecone", chunkIds.size());
         } catch (Exception e) {
             log.error("Error deleting vectors from Pinecone: {}", e.getMessage(), e);
