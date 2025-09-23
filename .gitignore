@@ -182,5 +182,8 @@ Thumbs.db
 # Ignorar carpeta del multiproyecto de IntelliJ
 .idea/
 
+# Ignorar archivos y carpetas de Angular dentro de la carpeta UI
+lgf-ai-rag-chatbot-ui/.angular/
+
 !build.gradle
 !settings.gradle
